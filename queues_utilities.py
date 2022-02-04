@@ -11,7 +11,12 @@
 
 # todo - add to queues
 
-def calc_lamda_agg(lamda):
+def calc_lamda_agg(lamda: float) -> int:
+    """
+
+    :param lamda:
+    :return:
+    """
     print(f'calc_lamda_agg({lamda})')
 
     # is lamda scalar, return scalar
