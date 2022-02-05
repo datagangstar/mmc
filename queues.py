@@ -1,43 +1,13 @@
 # queues.py
+import math
+from numbers import Number
 
-
-# test sheet
-# https://upedu.sharepoint.com/:x:/r/sites/GRP-Python-22/_layouts/15/Doc.aspx?sourcedoc=%7B5C6DEF46-23C0-4E95-8D91-3E87D403AA9B%7D&file=example%20just%20values.xlsx&action=default&mobileredirect=true
-
-
-# queues_tests.py - Python program you wrote to verify that your functions (from queues.py) satisfy the requirements and function correctly
-
-# queues.py – Each of the following functions (as described for Project 1) should be implemented in your queues.py:
-
-# is_valid( lamda, mu, c=1)
-# is_feasible(lamda1, mu, c=1)
-# calc_p0(lamda, mu, c=1)
-# calc_lq_mmc(lamda, mu, c=1)
-# calc_bk_mmc(k, lamda, mu, c=1)
-# calc_wqk_mmc(k, lamda, mu, c=1)
-# calc_lqk_mmc(k, lamda, wqk, c=1)
-# use_littles_law(lamda, mu, c=1, **kwargs)
-
-# todo add docstrings to functions
-# fixme - add parameter types and return types
-
-
-# is_valid
-#
-# Description:
-#
-#
-# Parameters:
-# lamda - arrival rate (scalar or tuple)
-# mu - service rate
-# c - # of servers
-#
-# Return:
-# boolean
 import queues_utilities
 
+# fixme - add info to docstring
+# fixme - add parameter types and return types
 
-def is_valid(lamda: float, mu: float, c: int = 1) -> bool:
+def is_valid(lamda, mu: float, c: int = 1) -> bool:
     """
 
     :param lamda:
@@ -51,9 +21,17 @@ def is_valid(lamda: float, mu: float, c: int = 1) -> bool:
     # fixme - maybe use list comp loop with helper function lamda_j_valid()
 
     # is c or mu valid
+
+    is_mu_num = isinstance(mu, Number)
+    print(f'is_mu_num: {is_mu_num}')
+    is_c_num = isinstance(mu, Number)
+    print(f'is_c_num: {is_c_num}')
+
     if (c <= 0 or mu <=1):
         #print('c or mu invalid')
         return False
+
+
 
     # if tuple
         # fixme - list comp through lamda checking is instance using all or any, from numbers import Number, if any(var, Number)
@@ -61,6 +39,10 @@ def is_valid(lamda: float, mu: float, c: int = 1) -> bool:
         # fixme - check if a value is numeric: from numbers import Number,
 
     # is lamda tuple
+
+    is_lamda_num = isinstance(lamda, Number)
+    print(f'is_lamda_num: {is_lamda_num}')
+
     if (type(lamda) is not tuple):
         # is lamda scalar valid
         if (lamda <= 0):
@@ -87,7 +69,7 @@ def is_valid(lamda: float, mu: float, c: int = 1) -> bool:
 # mu - service rate
 # c - # of servers
 
-def is_feasible(lamda: float, mu: float, c: int = 1) -> bool:
+def is_feasible(lamda, mu: float, c: int = 1) -> bool:
     """
 
     :param lamda:
@@ -133,7 +115,7 @@ def is_feasible(lamda: float, mu: float, c: int = 1) -> bool:
 # mu - service rate
 # c - # of servers
 
-def calc_p0(lamda: float, mu: float, c: int = 1) -> float:
+def calc_p0(lamda, mu: float, c: int = 1) -> float:
     """
 
     :param lamda:
@@ -161,7 +143,7 @@ def calc_p0(lamda: float, mu: float, c: int = 1) -> float:
     ro = lamda_new / (c * mu)
     print(f'ro = {ro}')
 
-    # fixme handle p0 = 0.19999999999999996, use is close
+
     # check c
     if (c <= 1):
         p0 = 1 - ro
@@ -174,19 +156,24 @@ def calc_p0(lamda: float, mu: float, c: int = 1) -> float:
 
     # initialize term1
     term1 = 0
+    n = 0
 
     # TODO sum term1
     # sum term1
-    # for n = 0 to c-1:
-    #     term1 = term1 + r**n/n!
-    #
-    #
 
-    # calc term
-    term2 = r**c
+    print(f'c {c}')
+
+    for n in range(1, c+1):
+        print(f'n = {n}')
+        term1 = term1 + (r**n)/math.factorial(n)
+        print(f'term1 = {term1}')
+
+
+
 
     # calc p0
-    p0 = 1 / (term1 + term2)
+    #p0 = 1 / (term1 + term2)
+    p0 = 5
     return p0
 
 
@@ -201,7 +188,7 @@ def calc_p0(lamda: float, mu: float, c: int = 1) -> float:
 # c - # of servers
 
 
-def calc_lq_mmc(lamda: float, mu: float, c: int = 1) -> float:
+def calc_lq_mmc(lamda, mu: float, c: int = 1) -> float:
     """
 
     :param lamda:
@@ -272,7 +259,7 @@ def calc_lq_mmc(lamda: float, mu: float, c: int = 1) -> float:
 # mu - service rate
 # c - # of servers
 
-def calc_bk_mmc(k: int, lamda: float, mu: float, c: int = 1) -> float:
+def calc_bk_mmc(k: int, lamda, mu: float, c: int = 1) -> float:
     """
 
     :param k:
@@ -298,7 +285,7 @@ def calc_bk_mmc(k: int, lamda: float, mu: float, c: int = 1) -> float:
 # mu - service rate
 # c - # of servers
 
-def calc_wqk_mmc(k: int, lamda: float, mu: float, c: int = 1) -> float:
+def calc_wqk_mmc(k: int, lamda, mu: float, c: int = 1) -> float:
     """
 
     :param k:
@@ -323,7 +310,7 @@ def calc_wqk_mmc(k: int, lamda: float, mu: float, c: int = 1) -> float:
 # wqk
 # c - # of servers
 
-def calc_lqk_mmc(k: int, lamda: float, wqk: float, c: int = 1) -> float:
+def calc_lqk_mmc(k: int, lamda, wqk: float, c: int = 1) -> float:
     """
 
     :param k:
